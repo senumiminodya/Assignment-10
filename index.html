@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="assets/normalize.css">
+    <style>
+        body {
+            background-color: #1B1A17;
+            position: relative;
+            height: 100vh;
+            width: 100vw;
+        }
+        .calculator-area {
+            width: 800px;
+            height: 600px;
+            background-color: #F0A500;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto ;
+            box-shadow: 7px 3px 20px #CF7500;
+        }
+        .top-area {
+            height: fit-content;
+            display: flex;
+            justify-content: space-around;
+        }
+        .top-area>div {
+            margin: 20px;
+        }
+        #input_area {
+            height: 70px;
+            width: 675px;
+            background-color: #E6D5B8;
+            display: flex;
+            align-items: center;
+            justify-content: right;
+        }
+        #clear {
+            height: 70px;
+            width: 70px;
+            background-color: #CF3030;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 7px 3px 20px #CF3030;
+        }
+        #clear:hover {
+            background-color: #d05858;
+            cursor: pointer;
+        }
+        #clear>h3 {
+            color: white;
+            font-size: 40px;
+            margin: 0;
+        }
+        .body-area {
+            display: grid;
+            justify-content: space-around;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(4, 110px);
+            gap: 10px;
+        }
+        .body-area>div {
+            /*height: 70px;
+            width: 140px;*/
+            background-color: #1B1A17;
+            margin: 20px;
+            padding: 10px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 7px 3px 20px #1B1A17;
+        }
+        .body-area>div:hover {
+            background-color: #42423b;
+            cursor: pointer;
+        }
+        .body-area>div>h3 {
+            font-size: 30px;
+            margin: 0;
+        }
+        #input-field {
+            font-size: 30px;
+            color: #1B1A17;
+            margin-right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator-area">
+        <section class="top-area">
+            <div id="clear"><h3>C</h3></div>
+            <div id="input_area"><h3 id="input-field"></h3></div>
+        </section>
+        <section class="body-area">
+            <div id="num7"><h3>7</h3></div>
+            <div id="num8"><h3>8</h3></div>
+            <div id="num9"><h3>9</h3></div>
+            <div id="plus"><h3>+</h3></div>
+            <div id="num4"><h3>4</h3></div>
+            <div id="num5"><h3>5</h3></div>
+            <div id="num6"><h3>6</h3></div>
+            <div id="minus"><h3>-</h3></div>
+            <div id="num1"><h3>1</h3></div>
+            <div id="num2"><h3>2</h3></div>
+            <div id="num3"><h3>3</h3></div>
+            <div id="divide"><h3>/</h3></div>
+            <div id="num0"><h3>0</h3></div>
+            <div id="dot"><h3>.</h3></div>
+            <div id="equal"><h3>=</h3></div>
+            <div id="multiplication"><h3>*</h3></div>
+        </section>
+    </div>
+    <script src="assets/lib/code.jquery.com_jquery-3.7.1.min.js"></script>
+    <script>
+        let currentValue = 0;
+
+        $('#clear').on('click',()=>{
+            $('#input-field').text('');
+            currentValue = 0;
+        });
+        $('#num7').on('click',()=>{
+            addNumber(7);
+        });
+        $('#num8').on('click',()=>{
+            addNumber(8);
+        });
+        $('#num9').on('click',()=>{
+            addNumber(9);
+        });
+        $('#plus').on('click',()=>{
+            operation('+')
+        });
+        $('#num4').on('click',()=>{
+            addNumber(4);
+        });
+        $('#num5').on('click',()=>{
+            addNumber(5);
+        });
+        $('#num6').on('click',()=>{
+            addNumber(6);
+        });
+        $('#minus').on('click',()=>{
+            operation('-');
+        });
+        $('#num1').on('click',()=>{
+            addNumber(1);
+        });
+        $('#num2').on('click',()=>{
+            addNumber(2);
+        });
+        $('#num3').on('click',()=>{
+            addNumber(3);
+        });
+        $('#divide').on('click',()=>{
+            operation('/');
+        });
+        $('#num0').on('click',()=>{
+            addNumber(0);
+        });
+        $('#dot').on('click',()=>{
+            const currentText = $('#input-field').text();
+            if (!currentText.includes('.')) {
+                $('#input-field').text(currentText + '.');
+            }
+        });
+        $('#equal').on('click',()=>{
+            evaluate();
+        });
+        $('#multiplication').on('click',()=>{
+            operation('*');
+        });
+        /*function addNumber(number) {
+            const currentText = $('#input-field').text();
+            $('#input-field').text(currentText + number);
+        }
+
+        function operation(operator) {
+            const inputValue = parseFloat($('#input-field').text());
+            switch (operator) {
+                case '+':
+                    currentValue += inputValue;
+                    break;
+                case '-':
+                    currentValue -= inputValue;
+                    break;
+                case '/':
+                    if (inputValue !== 0) {
+                        currentValue /= inputValue;
+                    } else {
+                        alert('Error: Division by zero');
+                    }
+                    break;
+                case '*':
+                    currentValue *= inputValue;
+                    break;
+                default:
+                    break;
+            }
+            $('#input-field').text('');
+            evaluate(currentValue);
+        }
+
+        function evaluate() {
+            $('#input-field').text(currentValue);
+        }*/
+        function addNumber(number) {
+            currentValue += number;
+            $('#input-field').text(currentValue);
+        }
+
+        function operation(operator) {
+            const lastChar = currentValue.charAt(currentValue.length - 1);
+            if (lastChar === '+' || lastChar === '-' || lastChar === '*' || lastChar === '/') {
+                currentValue = currentValue.slice(0, -1);
+            }
+            currentValue += operator;
+            $('#input-field').text(currentValue);
+        }
+
+        function evaluate() {
+            const result = eval(currentValue);
+            $('#input-field').text(result);
+            currentValue = result.toString();
+        }
+    </script>
+</body>
+</html>
