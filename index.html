@@ -118,55 +118,56 @@
     </div>
     <script src="assets/lib/code.jquery.com_jquery-3.7.1.min.js"></script>
     <script>
-        let currentValue = 0;
+        let currentValue = '';
 
         $('#clear').on('click',()=>{
             $('#input-field').text('');
-            currentValue = 0;
+            currentValue = '';
         });
         $('#num7').on('click',()=>{
-            addNumber(7);
+            addNumber('7');
         });
         $('#num8').on('click',()=>{
-            addNumber(8);
+            addNumber('8');
         });
         $('#num9').on('click',()=>{
-            addNumber(9);
+            addNumber('9');
         });
         $('#plus').on('click',()=>{
             operation('+')
         });
         $('#num4').on('click',()=>{
-            addNumber(4);
+            addNumber('4');
         });
         $('#num5').on('click',()=>{
-            addNumber(5);
+            addNumber('5');
         });
         $('#num6').on('click',()=>{
-            addNumber(6);
+            addNumber('6');
         });
         $('#minus').on('click',()=>{
             operation('-');
         });
         $('#num1').on('click',()=>{
-            addNumber(1);
+            addNumber('1');
         });
         $('#num2').on('click',()=>{
-            addNumber(2);
+            addNumber('2');
         });
         $('#num3').on('click',()=>{
-            addNumber(3);
+            addNumber('3');
         });
         $('#divide').on('click',()=>{
             operation('/');
         });
         $('#num0').on('click',()=>{
-            addNumber(0);
+            addNumber('0');
         });
         $('#dot').on('click',()=>{
             const currentText = $('#input-field').text();
             if (!currentText.includes('.')) {
                 $('#input-field').text(currentText + '.');
+                currentValue += '.';
             }
         });
         $('#equal').on('click',()=>{
@@ -175,40 +176,6 @@
         $('#multiplication').on('click',()=>{
             operation('*');
         });
-        /*function addNumber(number) {
-            const currentText = $('#input-field').text();
-            $('#input-field').text(currentText + number);
-        }
-
-        function operation(operator) {
-            const inputValue = parseFloat($('#input-field').text());
-            switch (operator) {
-                case '+':
-                    currentValue += inputValue;
-                    break;
-                case '-':
-                    currentValue -= inputValue;
-                    break;
-                case '/':
-                    if (inputValue !== 0) {
-                        currentValue /= inputValue;
-                    } else {
-                        alert('Error: Division by zero');
-                    }
-                    break;
-                case '*':
-                    currentValue *= inputValue;
-                    break;
-                default:
-                    break;
-            }
-            $('#input-field').text('');
-            evaluate(currentValue);
-        }
-
-        function evaluate() {
-            $('#input-field').text(currentValue);
-        }*/
         function addNumber(number) {
             currentValue += number;
             $('#input-field').text(currentValue);
@@ -224,9 +191,14 @@
         }
 
         function evaluate() {
-            const result = eval(currentValue);
-            $('#input-field').text(result);
-            currentValue = result.toString();
+            try {
+                const result = eval(currentValue);
+                $('#input-field').text(result);
+                currentValue = result.toString();
+            } catch (e) {
+                $('#input-field').text('Error');
+                currentValue = '';
+            }
         }
     </script>
 </body>
